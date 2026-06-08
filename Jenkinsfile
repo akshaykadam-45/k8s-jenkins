@@ -35,11 +35,11 @@ pipeline {
         stage('Docker Push') {
             steps {
                 echo "Logging into Docker Hub..."
-                // Using the environment variables safely in the shell
-                sh "echo '${DOCKER_PASSWORD}' | docker login -u '${DOCKER_USER}' --password-stdin"
+                // Using single quotes prevents Groovy interpolation warnings
+                sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin'
                 
                 echo "Pushing image to registry..."
-                sh "docker push ${FULL_IMAGE_TAG}"
+                sh 'docker push $FULL_IMAGE_TAG'
             }
         }
 
