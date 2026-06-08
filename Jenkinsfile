@@ -11,7 +11,7 @@ pipeline {
         
         // Pulling the secret password securely from Jenkins Credentials
         DOCKER_PASSWORD = credentials('docker-hub-password')
-        DOCKER_USER     = 'akshaykadam-45' // Replace with your actual Docker username variable if needed
+        DOCKER_USER     = 'akshaykadam45' // Replace with your actual Docker username variable if needed
     }
 
     stages {
