@@ -16,7 +16,7 @@ spec:
         app: mydep
     spec:
       containers:
-      - image: httpd
+      - image: docker.io/httpd:latest
         name: httpd
         resources: {}
 status: {}
