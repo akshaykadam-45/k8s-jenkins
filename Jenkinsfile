@@ -32,14 +32,19 @@ pipeline {
             }
         }
 
-        stage('Docker Push') {
+      stage('Docker Push') {
             steps {
-                echo "Logging into Docker Hub..."
-                // Using single quotes prevents Groovy interpolation warnings
-                sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin'
+                echo "Logging into Docker Hub using direct credentials binding..."
                 
-                echo "Pushing image to registry..."
-                sh 'docker push $FULL_IMAGE_TAG'
+                // This forces Jenkins to bind 'docker-hub-password' directly to variables inside this block
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-password', passwordVariable: 'DOCKER_HUB_TOKEN', usernameVariable: 'DOCKER_HUB_USER')]) {
+                    
+                    // We log in using the newly bound variables
+                    sh 'echo "$DOCKER_HUB_TOKEN" | docker login -u "$DOCKER_HUB_USER" --password-stdin'
+                    
+                    echo "Pushing image to registry..."
+                    sh 'docker push $FULL_IMAGE_TAG'
+                }
             }
         }
 
