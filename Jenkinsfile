@@ -36,7 +36,7 @@ pipeline {
             steps {
                 echo "Logging into Docker Hub..."
                 // Using single quotes prevents Groovy interpolation warnings
-                sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin'
+                sh 'docker login -u $DOCKER_USER -p $DOCKER_PASSWORD'
                 
                 echo "Pushing image to registry..."
                 sh 'docker push $FULL_IMAGE_TAG'
